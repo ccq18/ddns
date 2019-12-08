@@ -271,9 +271,7 @@ class Http
 
 }
 
-
-
-$env = require 'env.php';
+$env = json_decode(file_get_contents('env.json'),true) ;
 if (isset($env['login_token'])) {
     $auth = [
         'login_token' => $env['login_token'],

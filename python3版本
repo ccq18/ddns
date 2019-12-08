@@ -1,7 +1,0 @@
-## 1.ubuntu 安装python
-sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt update
-sudo apt install -y python3.7
-
