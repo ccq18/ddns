@@ -9,11 +9,17 @@ from pprint import pprint
 
 
 def iprint(obj):
-    print json.dumps(obj, ensure_ascii=False, indent=2)
+    print (json.dumps(obj, ensure_ascii=False, indent=2))
 
 
 class DnspodApi:
     base_params = None
+    def get(self, url, params={}):
+        obj = requests.get(url, params).text
+        return obj
+
+    def getIp(self):
+        return self.get("https://api.ipify.org/")
 
     def getJson(self, url, params={}):
         obj = requests.get(url, params).text
@@ -25,7 +31,11 @@ class DnspodApi:
         return json.loads(requests.post(url, data=data).text)
 
     def postApi(self, url, data={}):
-        data = dict(data.items() + self.base_params.items())
+        if self.base_params is not  None:
+            dict3 = dict(data , **self.base_params )
+        else:
+            dict3 = data
+        data = dict3
         return self.postJson(url, data)
 
     '''
@@ -114,7 +124,7 @@ class DnspodApi:
 
     def addlog(self, s):
         with open('./iplog.txt', 'a+') as f:
-            f.write(time.strftime("%y%m%d%H%M%S", time.localtime())+":" + s+"\n")
+            f.write(time.strftime("%y%m%d%H%M%S", time.localtime()) + ":" + s + "\n")
 
 
 parser = argparse.ArgumentParser(description="re create table")
@@ -143,7 +153,8 @@ if (args["cmd"] == 'upip'):
     record_ids = {env['record_id']}  # 域名记录id
     pprint(record_ids)
     # 取得当前ip
-    now_clinet_ip = dnspodapi.getJson("http://ip.taobao.com/service/getIpInfo2.php?ip=myip")['data']['ip']
+
+    now_clinet_ip = dnspodapi.getIp()
     dnspodapi.addlog('now_ip:' + now_clinet_ip)
     # # 当前ip和记录值不同 则更新记录
     #
@@ -159,7 +170,7 @@ if (args["cmd"] == 'upip'):
             old_ip=record['value'],
             now_clinet_ip=now_clinet_ip
         )
-        print l
+        print (l)
         dnspodapi.addlog(l)
         if (now_clinet_ip != record['value'] and now_clinet_ip != None):
             print (now_clinet_ip, record['id'])
@@ -177,7 +188,25 @@ elif (args["cmd"] == 'show'):
     domains = dnspodapi.getDomains()
     for domain in domains['domains']:
         print("domain:\n")
-        iprint(domain)
+        domaininfo = {
+            'id': domain['id'],
+            'grade_ns': domain['grade_ns'],
+            'punycode': domain['punycode'],
+            'ttl': domain['ttl'],
+            'status': domain['status'],
+
+        }
+        iprint(domaininfo)
         records = dnspodapi.getRecords(domain['id'])
         print("records:\n")
-        iprint(records)
+        rs = []
+        for record in records['records']:
+            rs.append({
+                'id': record['id'],
+                'ttl': record['ttl'],
+                'value': record['value'],
+                'status': record['status'],
+                'name': record['name'],
+                'type': record['type'],
+            })
+        iprint(rs)
