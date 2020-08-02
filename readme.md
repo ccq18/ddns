@@ -9,8 +9,7 @@
 ### 1. 下载 并安装依赖
 ```
 git clone git@github.com:ccq18/ddns.git
-cd ddns
-pip install -r requirements.txt
+pip install requests 
  ```
 ### 2.安装依赖 
 ### 1. 配置 env.json
