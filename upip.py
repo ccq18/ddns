@@ -8,7 +8,7 @@ import argparse
 from pprint import pprint
 import os
 import sys
-
+path =os.path.split(os.path.realpath(sys.argv[0]))[0]
 def iprint(obj):
     print (json.dumps(obj, ensure_ascii=False, indent=2))
 
@@ -124,14 +124,14 @@ class DnspodApi:
                             )
 
     def addlog(self, s):
-        with open('./iplog.txt', 'a+') as f:
+        with open(path+'/iplog.txt', 'a+') as f:
             f.write(time.strftime("%y%m%d%H%M%S", time.localtime()) + ":" + s + "\n")
 
 
 parser = argparse.ArgumentParser(description="re create table")
 parser.add_argument("cmd")
 args = vars(parser.parse_args())
-path =os.path.split(os.path.realpath(sys.argv[0]))[0]
+
 with open(path+'/env.json', 'r') as f:
     json_str = f.read()
 env = json.loads(json_str)
