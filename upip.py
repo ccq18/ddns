@@ -6,7 +6,8 @@ import json
 import time
 import argparse
 from pprint import pprint
-
+import os
+import sys
 
 def iprint(obj):
     print (json.dumps(obj, ensure_ascii=False, indent=2))
@@ -130,8 +131,8 @@ class DnspodApi:
 parser = argparse.ArgumentParser(description="re create table")
 parser.add_argument("cmd")
 args = vars(parser.parse_args())
-
-with open('./env.json', 'r') as f:
+path =os.path.split(os.path.realpath(sys.argv[0]))[0]
+with open(path+'/env.json', 'r') as f:
     json_str = f.read()
 env = json.loads(json_str)
 if ('login_token' in env):
