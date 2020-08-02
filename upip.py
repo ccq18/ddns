@@ -131,7 +131,7 @@ parser = argparse.ArgumentParser(description="re create table")
 parser.add_argument("cmd")
 args = vars(parser.parse_args())
 
-with open('env.json', 'r') as f:
+with open('./env.json', 'r') as f:
     json_str = f.read()
 env = json.loads(json_str)
 if ('login_token' in env):

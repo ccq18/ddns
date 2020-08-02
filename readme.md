@@ -26,7 +26,7 @@ https://support.dnspod.cn/Kb/showarticle/tsid/227/
 ```
 启动 crontab upcron  
 查看 crontab -l  
-
+service cron status
 
 env.json
 ```
