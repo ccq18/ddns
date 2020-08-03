@@ -162,7 +162,7 @@ if (args["cmd"] == 'upip'):
     for record_id in record_ids:
         #     # 取得记录
         record = dnspodapi.getRecord(domain_id, record_id)
-        iprint(record)
+        pprint(record)
         # # 判断ip变更了 则修改记录
         l = "change domain. domain_id:{domain_id} record_id:{record_id} name:{sub_domain} old_ip:{old_ip} new_ip {now_clinet_ip}".format(
             domain_id=domain_id,
